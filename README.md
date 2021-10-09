@@ -1,16 +1,11 @@
 # book_gallery
 
-A new Flutter project.
+A new Flutter project to fetch data from google books api.
+This project, is a challenge that was given to me by App and up to build it in few days.
 
-## Getting Started
+## The app have the following features
+- user authentication with email (and password) and authentication with social media.
+- user can search for books
+- user can save a book to favourite list (list saved to firestore)
+- user can see the details of each book.
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
