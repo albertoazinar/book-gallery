@@ -1,5 +1,6 @@
 
 import 'package:book_gallery/screens/login.dart';
+import 'package:book_gallery/screens/register.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
                   TextStyle(fontWeight: FontWeight.bold))),
         ),
       ),
-      home: Login(),
+      home: Register(),
     );
   }
 }
