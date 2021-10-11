@@ -1,3 +1,5 @@
+
+import 'package:book_gallery/screens/login.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,9 +13,20 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor:  Colors.white,
+        accentColor: const Color.fromRGBO(150, 148, 246, 1.0),
+        fontFamily: 'OpenSans',
+        appBarTheme: AppBarTheme(
+          iconTheme: IconThemeData(color: Theme.of(context).accentColor)
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+              elevation: MaterialStateProperty.all(0.0),
+              textStyle: MaterialStateProperty.all(
+                  TextStyle(fontWeight: FontWeight.bold))),
+        ),
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: Login(),
     );
   }
 }
@@ -38,28 +51,15 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+
     );
   }
 }
