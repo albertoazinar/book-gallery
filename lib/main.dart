@@ -1,4 +1,5 @@
 
+import 'package:book_gallery/screens/book.dart';
 import 'package:book_gallery/screens/login.dart';
 import 'package:book_gallery/screens/register.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
                   TextStyle(fontWeight: FontWeight.bold))),
         ),
       ),
-      home: Register(),
+      home: Book(),
     );
   }
 }
