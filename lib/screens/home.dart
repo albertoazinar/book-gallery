@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -17,7 +18,7 @@ class _HomeState extends State<Home> {
               children:[
                 Expanded(
                   child: Text(
-                          "Explore thousand of Books on the Go",
+                          "Explore thousand of books on the go",
                           style: TextStyle(
                               fontSize: 32,
                               fontWeight: FontWeight.w700,
@@ -33,7 +34,7 @@ class _HomeState extends State<Home> {
 
   Widget searchBox(){
     return Container(
-      width: MediaQuery.of(context).size.width * 0.8,
+      width: MediaQuery.of(context).size.width * 0.9,
       height: 45,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(50),
@@ -51,6 +52,7 @@ class _HomeState extends State<Home> {
           child: TextFormField(
               decoration: InputDecoration(
                 labelText: "Search for books...",
+                prefixIcon: Icon(Icons.search_rounded),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(50),
                   borderSide: BorderSide(
@@ -58,7 +60,10 @@ class _HomeState extends State<Home> {
                   )
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(50)
+                  borderRadius: BorderRadius.circular(50),
+                  borderSide: BorderSide(
+                    color: Colors.white
+                  )
                 ),
                 fillColor: Colors.white,
                 filled: true,
@@ -84,7 +89,32 @@ class _HomeState extends State<Home> {
                   height: 25,
                 ),
 
-                searchBox()
+                searchBox(),
+
+                SizedBox(
+                  height: 20,
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.only(left: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children:[
+                        Text(
+                            "Famous Books",
+                            style: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontSize: 22,
+                                fontWeight: FontWeight.w800
+                            ),
+                        ),
+                      ]
+                  ),
+                ),
+
+                SizedBox(
+                  height: 20,
+                ),
               ],
             )
 
