@@ -1,0 +1,64 @@
+import 'dart:convert';
+
+import 'package:flutter/cupertino.dart';
+
+BookList bookListFromJson(String str) => BookList.fromJson(json.decode(str));
+
+String bookListToJson(BookList data) => json.encode(data.toJson());
+
+class BookList{
+  BookList({
+    required this.books,
+  });
+
+  List<Book> books;
+
+  factory BookList.fromJson(Map<String, dynamic> json) => BookList(
+     books: List<Book>.from(json["items"].map((x) => Book.fromJson(x)))
+  );
+
+  Map<String, dynamic> toJson() => {
+    "items" : List<dynamic>.from(books.map((x) => x.toJson()))
+  };
+}
+
+class Book{
+  String id;
+  String title;
+  String authors;
+  //String description;
+  String categories;
+  String averageRating;
+  //String thumbnail;
+
+  Book({
+    required this.id,
+    required this.title,
+    required this.authors,
+   // required this.description,
+    required this.categories,
+    required this.averageRating,
+    //required this.thumbnail
+  });
+
+  Map <String, dynamic> toJson() => {
+      "id" : id,
+      "title" : title,
+      "authors" : authors,
+      //"description" : description,
+      "categories" : categories,
+      "averageRating" : averageRating,
+      //"thumbnail" : thumbnail
+
+  };
+
+  factory Book.fromJson(Map<String, dynamic> parsedJson) => Book (
+    id : parsedJson["id"],
+    title : parsedJson["volumeInfo"]["title"],
+    authors : (parsedJson["volumeInfo"]["authors"] == null) ? '' : (parsedJson["volumeInfo"]["authors"]  as List).join(", "),
+    //description : (parsedJson["volumeInfo"]["description"] == null) ? '' : parsedJson["volumeInfo"]["description"],
+    categories : (parsedJson["volumeInfo"]["categories"] == null) ? '' : (parsedJson["volumeInfo"]["categories"] as List).join(", "),
+    averageRating : (parsedJson["volumeInfo"]["averageRating"] == null) ? '' : (parsedJson["volumeInfo"]["averageRating"]).toString(),
+    //thumbnail : (parsedJson["volumeInfo"]["imageLinks"]["thumbnail"] == null) ? '' : parsedJson["volumeInfo"]["imageLinks"]["thumbnail"]
+  );
+}

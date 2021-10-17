@@ -1,5 +1,5 @@
 
-import 'package:book_gallery/screens/book.dart';
+import 'package:book_gallery/screens/book_details.dart';
 import 'package:book_gallery/screens/home.dart';
 import 'package:book_gallery/screens/login.dart';
 import 'package:book_gallery/screens/register.dart';

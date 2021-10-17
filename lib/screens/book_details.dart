@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class Book extends StatefulWidget {
-  const Book({Key? key}) : super(key: key);
+class Book_info extends StatefulWidget {
+  const Book_info({Key? key}) : super(key: key);
 
   @override
-  _BookState createState() => _BookState();
+  _Book_infoState createState() => _Book_infoState();
 }
 
-class _BookState extends State<Book> {
+class _Book_infoState extends State<Book_info> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
