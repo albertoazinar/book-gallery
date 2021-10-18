@@ -1,15 +1,14 @@
 import 'dart:convert';
 
-import 'package:book_gallery/constants/Strings.dart';
 import 'package:book_gallery/models/Book.dart';
 import 'package:http/http.dart' as http;
 
 class ApiManager {
-  var api_key = "&key=[AIzaSyBIf48zvzOw9F7tqJFSgIUJH_kGms9eVrA]";
-    Future<BookList> getBooks() async{
+  //var api_key = "&key=[AIzaSyBIf48zvzOw9F7tqJFSgIUJH_kGms9eVrA]";
+    Future<BookList> getBooks(query) async{
       var response;
       var books;
-      String url = "https://www.googleapis.com/books/v1/volumes?q=inauthor:rowling";
+      String url = "https://www.googleapis.com/books/v1/volumes?q=$query&fields=kind,items(id,volumeInfo/title,volumeInfo/authors,volumeInfo/description,volumeInfo/categories,volumeInfo/averageRating,volumeInfo/imageLinks/thumbnail)";
       try{
           response = await http.get(Uri.parse(url));
           print(response.statusCode);

@@ -26,29 +26,29 @@ class Book{
   String id;
   String title;
   String authors;
-  //String description;
+  String description;
   String categories;
-  String averageRating;
-  //String thumbnail;
+  String? averageRating;
+  String? thumbnail;
 
   Book({
     required this.id,
     required this.title,
     required this.authors,
-   // required this.description,
+    required this.description,
     required this.categories,
-    required this.averageRating,
-    //required this.thumbnail
+    this.averageRating,
+    this.thumbnail
   });
 
   Map <String, dynamic> toJson() => {
       "id" : id,
       "title" : title,
       "authors" : authors,
-      //"description" : description,
+      "description" : description,
       "categories" : categories,
       "averageRating" : averageRating,
-      //"thumbnail" : thumbnail
+      "thumbnail" : thumbnail
 
   };
 
@@ -56,9 +56,9 @@ class Book{
     id : parsedJson["id"],
     title : parsedJson["volumeInfo"]["title"],
     authors : (parsedJson["volumeInfo"]["authors"] == null) ? '' : (parsedJson["volumeInfo"]["authors"]  as List).join(", "),
-    //description : (parsedJson["volumeInfo"]["description"] == null) ? '' : parsedJson["volumeInfo"]["description"],
+    description : (parsedJson["volumeInfo"]["description"] == null) ? '' : parsedJson["volumeInfo"]["description"],
     categories : (parsedJson["volumeInfo"]["categories"] == null) ? '' : (parsedJson["volumeInfo"]["categories"] as List).join(", "),
     averageRating : (parsedJson["volumeInfo"]["averageRating"] == null) ? '' : (parsedJson["volumeInfo"]["averageRating"]).toString(),
-    //thumbnail : (parsedJson["volumeInfo"]["imageLinks"]["thumbnail"] == null) ? '' : parsedJson["volumeInfo"]["imageLinks"]["thumbnail"]
+    thumbnail : (parsedJson["volumeInfo"]["imageLinks"] == null) ? null : parsedJson["volumeInfo"]["imageLinks"]["thumbnail"].toString()
   );
 }

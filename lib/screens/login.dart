@@ -1,5 +1,8 @@
+import 'package:book_gallery/main.dart';
+import 'package:book_gallery/services/firebase_auth_service.dart';
 import 'package:book_gallery/widgets/logo.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -11,6 +14,23 @@ class Login extends StatefulWidget {
 
 
 class _LoginState extends State<Login> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  String? errorMessage;
+  void loginWithEmailAndPassword(){
+      context.read<Firebase_Auth_Service>().signIn(
+        email: _emailController.text,
+        password: _passwordController.text
+      ).then((value) => {
+        Navigator.pushReplacement(context, MaterialPageRoute(
+            builder: (context) => AuthenticationWrapper()
+        ))
+      }).catchError((error){
+          setState(() {
+            errorMessage = error.message;
+          });
+      });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +68,7 @@ class _LoginState extends State<Login> {
                                       Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 15),
                                         child: TextFormField(
+                                          controller: _emailController,
                                           keyboardType: TextInputType.emailAddress,
 
                                           decoration: InputDecoration(
@@ -79,6 +100,7 @@ class _LoginState extends State<Login> {
                                       Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 15),
                                         child: TextFormField(
+                                          controller: _passwordController,
                                           keyboardType: TextInputType.emailAddress,
 
                                           decoration: InputDecoration(
@@ -116,7 +138,9 @@ class _LoginState extends State<Login> {
                                         child: Padding(
                                           padding: const EdgeInsets.symmetric(horizontal: 15),
                                           child: ElevatedButton(
-                                              onPressed: (){},
+                                              onPressed: (){
+                                                loginWithEmailAndPassword();
+                                              },
                                                child: Text(
                                                    "Login",
                                                   style: TextStyle(
