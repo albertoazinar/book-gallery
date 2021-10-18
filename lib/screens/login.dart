@@ -17,6 +17,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _formkey = GlobalKey<FormState>();
   String? errorMessage;
   void loginWithEmailAndPassword(){
       context.read<Firebase_Auth_Service>().signIn(
@@ -62,6 +63,7 @@ class _LoginState extends State<Login> {
                           child: Card(
                             color: Theme.of(context).accentColor,
                             child: Form(
+                                key: _formkey,
                                 child: Container(
                                   child: Column(
                                     children: [
@@ -82,7 +84,8 @@ class _LoginState extends State<Login> {
                                                   borderSide:
                                                   BorderSide(color: Theme
                                                       .of(context)
-                                                      .primaryColor, width: 1),
+                                                      .primaryColor, width: 1
+                                                  ),
                                                 ),
                                                 labelStyle: TextStyle(
                                                     fontWeight: FontWeight.w800,
@@ -93,6 +96,13 @@ class _LoginState extends State<Login> {
                                                   borderSide: BorderSide(width: 1, color: Colors.grey.withOpacity(.6)),
                                                 ),
                                           ),
+                                          validator: (value){
+                                            if (value!.isEmpty ||
+                                                !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                                    .hasMatch(value)) return 'Enter a valid email';
+
+                                            return null;
+                                          },
                                         ),
                                       ),
 
@@ -102,7 +112,8 @@ class _LoginState extends State<Login> {
                                         padding: const EdgeInsets.symmetric(horizontal: 15),
                                         child: TextFormField(
                                           controller: _passwordController,
-                                          keyboardType: TextInputType.emailAddress,
+                                          keyboardType: TextInputType.text,
+                                          obscureText: true,
 
                                           decoration: InputDecoration(
                                             labelText: "Password",
@@ -125,6 +136,11 @@ class _LoginState extends State<Login> {
                                               borderSide: BorderSide(width: 1, color: Colors.grey.withOpacity(.6)),
                                             ),
                                           ),
+                                          validator: (value){
+                                            if(value == null || value.isEmpty )
+                                              return 'Enter a valid password';
+                                            return null;
+                                          },
                                         ),
                                       ),
                                       SizedBox(
@@ -140,7 +156,8 @@ class _LoginState extends State<Login> {
                                           padding: const EdgeInsets.symmetric(horizontal: 15),
                                           child: ElevatedButton(
                                               onPressed: (){
-                                                loginWithEmailAndPassword();
+                                                if(_formkey.currentState!.validate())
+                                                    loginWithEmailAndPassword();
                                               },
                                                child: Text(
                                                    "Login",

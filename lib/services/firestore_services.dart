@@ -12,4 +12,13 @@ class Firestore_Service {
         .get();
     return userSnapshot;
   }
+
+  static Future<void> addUser(uid, fullName, birthdate, email) async {
+    var userData = {
+      "fullName": fullName,
+      "birthdate": birthdate,
+      "email": email
+    };
+    FirebaseFirestore.instance.collection('users').doc(uid).set(userData);
+  }
 }

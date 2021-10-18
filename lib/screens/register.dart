@@ -1,8 +1,14 @@
 import 'package:book_gallery/screens/login.dart';
+import 'package:book_gallery/services/firebase_auth_service.dart';
+import 'package:book_gallery/services/firestore_services.dart';
 import 'package:book_gallery/widgets/logo.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/src/provider.dart';
+
+import '../main.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -18,6 +24,7 @@ class _RegisterState extends State<Register> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final _formkey = GlobalKey<FormState>();
+  String? errorMessage;
 
 
   String? fullnameValidator(value){
@@ -43,8 +50,30 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
 
     void register(){
-
+        context.read<Firebase_Auth_Service>().signUp(
+            email: _emailController.text,
+            password: _passwordController.text
+        ).then((res){
+          if (res == null) {
+            final user = FirebaseAuth.instance.currentUser;
+            if (user != null) {
+                Firestore_Service.addUser(
+                  user.uid,
+                  _fullnameController.text.trim(),
+                  _birthDateController.text.trim(),
+                  _emailController.text.trim(),
+              );
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => AuthenticationWrapper()));
+            }
+          } else {
+            setState(() {
+              errorMessage = res;
+            });
+          }
+        });
     }
+
     return Scaffold(
         body: SingleChildScrollView(
           child: Center(
@@ -72,10 +101,16 @@ class _RegisterState extends State<Register> {
                   child: Card(
                     color: Theme.of(context).accentColor,
                     child: Form(
+                        key: _formkey,
                         child: Container(
                           child: Column(
                             children: [
-                              SizedBox(height: 10),
+                              if (errorMessage != null)
+                                Text(
+                                  errorMessage!,
+                                  style: TextStyle(color: Theme.of(context).errorColor),
+                                ),
+                              SizedBox(height: 7),
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 15),
                                 child: TextFormField(
@@ -282,7 +317,8 @@ class _RegisterState extends State<Register> {
                                   padding: const EdgeInsets.symmetric(horizontal: 15),
                                   child: ElevatedButton(
                                     onPressed: (){
-                                      register();
+                                      if(_formkey.currentState!.validate())
+                                          register();
                                     },
                                     child: Text(
                                       "Register",
