@@ -1,4 +1,5 @@
 import 'package:book_gallery/main.dart';
+import 'package:book_gallery/screens/register.dart';
 import 'package:book_gallery/services/firebase_auth_service.dart';
 import 'package:book_gallery/widgets/logo.dart';
 import 'package:flutter/material.dart';
@@ -222,7 +223,11 @@ class _LoginState extends State<Login> {
                                       Padding(
                                         padding: const EdgeInsets.symmetric(horizontal:35),
                                         child: TextButton(
-                                          onPressed: (){},
+                                          onPressed: (){
+                                            Navigator.pushReplacement(context, MaterialPageRoute(
+                                                builder: (context) => Register()
+                                            ));
+                                          },
                                           child: Text(
                                             "Not Registered? Register here.",
                                             style: TextStyle(

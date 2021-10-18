@@ -4,13 +4,16 @@ import 'package:book_gallery/screens/login.dart';
 import 'package:book_gallery/screens/register.dart';
 import 'package:book_gallery/screens/screen_manager.dart';
 import 'package:book_gallery/services/firebase_auth_service.dart';
+import 'package:book_gallery/services/firestore_services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'models/user.dart' as local;
 
 
-void main() async{
+Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());
@@ -28,7 +31,10 @@ class MyApp extends StatelessWidget {
           StreamProvider(
               create: (context) => context.read<Firebase_Auth_Service>().authStateChanges,
               initialData: false,
-          )
+          ),
+          ListenableProvider<local.UserAuthed>(
+            create: (_) => local.UserAuthed(),
+          ),
       ],
       child: MaterialApp(
         title: 'Book Gallery',
@@ -58,12 +64,49 @@ class AuthenticationWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final firebaseUser = context.watch<User>();
+    final authService = Provider.of<Firebase_Auth_Service>(context);
+    //final firebaseUser = context.watch<User?>();
 
-    if(firebaseUser != null)
-      return Home();
-    else
-      return Login();
+    return StreamBuilder<User?>(
+      stream: authService.authStateChanges,
+      builder: (_, AsyncSnapshot<User?> snapshot) {
+        if (snapshot.connectionState == ConnectionState.active) {
+            final User? user = snapshot.data;
+
+            if(user == null){
+              return Login();
+            }else{
+              Firestore_Service.getUser().then((DocumentSnapshot snapshot) {
+                if (snapshot.exists) {
+                  Map<String, dynamic> user = snapshot.data() as Map<String, dynamic>;
+
+                  print(user);
+
+                  Provider.of<local.UserAuthed>(context, listen: false).setUser(local.User(
+                      uid: snapshot.id,
+                      email: user['email'],
+                      fullname: user['fullname'],
+                      birthDate: user['birthdate'],
+                  ));
+
+                }else{
+
+                }
+              });
+              return ScreenManager();
+            }
+          }else{
+              return Scaffold(
+                body: Center(
+                   child: Container(),
+                ),
+              );
+        }
+      });
+    // if(firebaseUser != null)
+    //   return Home();
+    // else
+    //   return Login();
   }
 }
 
