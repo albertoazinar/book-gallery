@@ -31,6 +31,7 @@ class Book{
   String categories;
   String? averageRating;
   String? thumbnail;
+  bool? isFavourite;
 
   Book({
     required this.id,
@@ -39,7 +40,8 @@ class Book{
     required this.description,
     required this.categories,
     this.averageRating,
-    this.thumbnail
+    this.thumbnail,
+    this.isFavourite
   });
 
   Map <String, dynamic> toJson() => {
@@ -82,7 +84,8 @@ class Books with ChangeNotifier{
           description: favourite['description'],
           categories: favourite['category'],
           averageRating: favourite['averageRating'],
-          thumbnail: favourite['thumbnail']
+          thumbnail: favourite['thumbnail'],
+          isFavourite : favourite['isFavourite']
       ));
       notifyListeners();
     });

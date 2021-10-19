@@ -15,31 +15,41 @@ class Book_info extends StatefulWidget {
 }
 
 class _Book_infoState extends State<Book_info> {
-  bool _isFavourite = false;
 
   @override
   Widget build(BuildContext context) {
+    bool _isFavourite = widget.book.isFavourite == null ? false : widget.book.isFavourite as bool;
     final user = Provider.of<local.UserAuthed>(context).user;
 
     void addToFavourites(){
       if(_isFavourite)
         Firestore_Service.addBook(user!.uid!, widget.book.title , widget.book.averageRating as String,
             widget.book.authors  , widget.book.categories ,
-            widget.book.description, widget.book.thumbnail.toString(), widget.book.id
-        ).then((value) => print("here"));
+            widget.book.description, widget.book.thumbnail.toString(), widget.book.id, _isFavourite
+        ).then((value) => print("saved"));
+    }
+
+    void removeFromFavourites(){
+      Firestore_Service.removeBookFromFavourite(user!.uid!, widget.book).then((value) => print('removed'));
     }
 
     void toggleFavIcon(){
       setState(() {
-        _isFavourite ? addToFavourites() : _isFavourite = true;
+        _isFavourite == true ? removeFromFavourites() : addToFavourites();
       });
     }
 
     Widget favIcon(){
       return IconButton(
           onPressed: (){
-            if(!_isFavourite) _isFavourite = true;
             toggleFavIcon();
+            setState(() {
+              _isFavourite ? _isFavourite = false : _isFavourite = true;
+            });
+            // if(!_isFavourite)
+            //     _isFavourite = false;
+            // else
+            //     _isFavourite = true;
           },
           icon: (
               _isFavourite ? Icon(  Icons.favorite_outlined, color: Colors.red,) : Icon(Icons.favorite_outline)

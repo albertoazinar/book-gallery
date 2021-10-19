@@ -25,7 +25,7 @@ class Firestore_Service {
 
   static Future<void> addBook(
       user_id,String title, String averageRating,String authores,
-      String categories,String description, String thumbnail,String id) async{
+      String categories,String description, String thumbnail,String id,bool isFavourite) async{
 
       final bookData = {
         "id" : id,
@@ -35,6 +35,7 @@ class Firestore_Service {
         "category" : categories,
         "description" : description,
         "thumbnail" : thumbnail,
+        "isFavourite" : isFavourite
       };
 
       FirebaseFirestore.instance.collection('users')
@@ -55,7 +56,7 @@ class Firestore_Service {
   }
 
   static Future<void> removeBookFromFavourite(uid,book) async{
-       await FirebaseFirestore.instance.collection("chats").doc("users")
+      return await FirebaseFirestore.instance.collection("users").doc(uid)
            .collection("favouriteBooks").doc(book.id)
            .delete();
   }
