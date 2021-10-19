@@ -1,7 +1,7 @@
 # book_gallery
 
-A new Flutter project to fetch data from google books api.
-I built this project, is a challenge that was given to me by <em>App And Up</em> to build it in few days.
+A new Flutter project about books from google books api.
+I built this project, on a challenge that was given to me by <em>App And Up</em> to build it in few days.
 
 ## The app have the following features
 - user authentication with email (and password) and authenticate with google.
