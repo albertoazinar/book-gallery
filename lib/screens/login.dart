@@ -1,7 +1,9 @@
 import 'package:book_gallery/main.dart';
 import 'package:book_gallery/screens/register.dart';
 import 'package:book_gallery/services/firebase_auth_service.dart';
+import 'package:book_gallery/services/firestore_services.dart';
 import 'package:book_gallery/widgets/logo.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/src/provider.dart';
@@ -20,6 +22,7 @@ class _LoginState extends State<Login> {
   final _passwordController = TextEditingController();
   final _formkey = GlobalKey<FormState>();
   String? errorMessage;
+
   void loginWithEmailAndPassword(){
       context.read<Firebase_Auth_Service>().signIn(
         email: _emailController.text,
@@ -33,6 +36,18 @@ class _LoginState extends State<Login> {
             errorMessage = error.message;
           });
       });
+  }
+
+  void loginWithGoogle(BuildContext context){
+    context.read<Firebase_Auth_Service>().signInWithGoogle().then((UserCredential? userCredential) {
+      if (userCredential != null) {
+        final User? user = userCredential.user;
+        if (user != null) {
+          Firestore_Service.addUser(
+              user.uid, user.displayName, null, user.email);
+        }
+      }
+    });
   }
 
   @override
@@ -55,6 +70,15 @@ class _LoginState extends State<Login> {
                              fontFamily: 'Roboto',
                              fontSize: 30
                            ),
+                        ),
+                        SizedBox(height: 7,),
+                        Text(
+                          (errorMessage != null) ? errorMessage as String: '',
+                          style: TextStyle(
+                              fontFamily: 'Roboto',
+                              fontSize: 20,
+                              color: Colors.red
+                          ),
                         ),
                         SizedBox(
                           height: 20,
@@ -214,16 +238,20 @@ class _LoginState extends State<Login> {
                                         child: Padding(
                                           padding: const EdgeInsets.symmetric(horizontal: 15),
                                           child: ElevatedButton.icon(
-                                            onPressed: (){},
+                                            onPressed: (){
+                                              if(_formkey.currentState!.validate())
+                                                  loginWithGoogle(context);
+                                            },
                                             icon: SvgPicture.asset(
                                               "assets/icons/icons8-google.svg",
                                               color: Colors.black,
-                                              width: 26,
+                                              width: 24,
                                             ),
                                             label: Text(
                                               "Login With Google",
                                               style: TextStyle(
-                                                  color: Colors.black
+                                                  color: Colors.black,
+                                                fontSize: 15
                                               ),
                                             ),
                                             style: ButtonStyle(

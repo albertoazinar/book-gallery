@@ -43,16 +43,18 @@ class _ProfileState extends State<Profile> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text("Birthdate"),
                       Text(
-                          '${user?.birthDate}'
+                        (user?.birthDate == null ) ? '     ' : '${user?.birthDate}'
                       ),
                     ],
                   ),
                 ),
-
+              SizedBox(
+                height: 20,
+              ),
                 ElevatedButton(
                     onPressed: (){
                       context.read<Firebase_Auth_Service>().signOut();

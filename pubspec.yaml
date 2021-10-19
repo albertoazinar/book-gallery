@@ -30,6 +30,7 @@ dependencies:
   provider: ^6.0.1
   cloud_firestore: ^2.5.3
   intl: ^0.17.0
+  google_sign_in: ^5.1.1
 
 
 
