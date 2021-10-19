@@ -27,12 +27,10 @@ class _Book_infoState extends State<Book_info> {
             widget.book.authors  , widget.book.categories ,
             widget.book.description, widget.book.thumbnail.toString(), widget.book.id
         ).then((value) => print("here"));
-      _isFavourite = false;
     }
 
     void toggleFavIcon(){
       setState(() {
-        _isFavourite ? _isFavourite = false : _isFavourite = true;
         _isFavourite ? addToFavourites() : _isFavourite = true;
       });
     }
@@ -40,6 +38,7 @@ class _Book_infoState extends State<Book_info> {
     Widget favIcon(){
       return IconButton(
           onPressed: (){
+            if(!_isFavourite) _isFavourite = true;
             toggleFavIcon();
           },
           icon: (

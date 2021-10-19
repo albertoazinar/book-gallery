@@ -37,8 +37,6 @@ class Firestore_Service {
         "thumbnail" : thumbnail,
       };
 
-      print(bookData);
-
       FirebaseFirestore.instance.collection('users')
           .doc(user_id)
           .collection("favouriteBooks")

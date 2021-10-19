@@ -2,7 +2,6 @@ import 'package:book_gallery/screens/favourite.dart';
 import 'package:book_gallery/screens/Profile.dart';
 import 'package:book_gallery/screens/home.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class ScreenManager extends StatefulWidget {
   const ScreenManager({Key? key}) : super(key: key);
@@ -24,7 +23,7 @@ class _ScreenManagerState extends State<ScreenManager> {
           color: const Color.fromRGBO(150, 148, 246, 1.0),
       )
     },
-    {'screen':'Favorites',
+    {'screen':'Favourite Books',
       'icon': Icon(
         Icons.favorite_border_outlined,
         color:  const Color.fromRGBO(150, 148, 246, 1.0),

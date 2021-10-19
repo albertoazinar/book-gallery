@@ -3,6 +3,7 @@ import 'package:book_gallery/screens/register.dart';
 import 'package:book_gallery/services/firebase_auth_service.dart';
 import 'package:book_gallery/widgets/logo.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/src/provider.dart';
 
 class Login extends StatefulWidget {
@@ -214,12 +215,13 @@ class _LoginState extends State<Login> {
                                           padding: const EdgeInsets.symmetric(horizontal: 15),
                                           child: ElevatedButton.icon(
                                             onPressed: (){},
-                                            icon: Icon(
-                                              Icons.facebook,
-                                              color: Theme.of(context).accentColor,
+                                            icon: SvgPicture.asset(
+                                              "assets/icons/icons8-google.svg",
+                                              color: Colors.black,
+                                              width: 26,
                                             ),
                                             label: Text(
-                                              "Login With Facebook",
+                                              "Login With Google",
                                               style: TextStyle(
                                                   color: Colors.black
                                               ),

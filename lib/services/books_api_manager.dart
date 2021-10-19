@@ -15,7 +15,6 @@ class ApiManager {
               var jsonString = response.body;
               var jsonMap = json.decode(jsonString);
               books = BookList.fromJson(jsonMap);
-              print(books);
           }
       }catch(Exception){
         print(Exception.toString());

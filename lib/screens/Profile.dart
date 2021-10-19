@@ -18,10 +18,41 @@ class _ProfileState extends State<Profile> {
       body: Center(
         child: Column(
             children : [
-                Text("Profile"),
-                Text(
-                    '${user?.email}'
+
+                SizedBox(
+                  height: 60,
                 ),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text("User"),
+                      Text(
+                          '${user?.email}'
+                      ),
+                    ],
+                  ),
+                ),
+
+                SizedBox(
+                  height: 30,
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text("Birthdate"),
+                      Text(
+                          '${user?.birthDate}'
+                      ),
+                    ],
+                  ),
+                ),
+
                 ElevatedButton(
                     onPressed: (){
                       context.read<Firebase_Auth_Service>().signOut();
