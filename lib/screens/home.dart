@@ -1,12 +1,10 @@
 import 'dart:async';
 import 'dart:core';
-
 import 'package:book_gallery/models/Book.dart';
 import 'package:book_gallery/services/books_api_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_gifs/loading_gifs.dart';
-
 import 'book_details.dart';
 
 class Home extends StatefulWidget {

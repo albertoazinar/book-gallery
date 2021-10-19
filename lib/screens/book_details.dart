@@ -1,7 +1,6 @@
 import 'package:book_gallery/models/Book.dart';
 import 'package:book_gallery/services/firestore_services.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:loading_gifs/loading_gifs.dart';
 import 'package:provider/provider.dart';
 import '../models/user.dart' as local;
