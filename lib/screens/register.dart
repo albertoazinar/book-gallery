@@ -34,7 +34,7 @@ class _RegisterState extends State<Register> {
   }
 
   String? passwordValidator(value){
-    if(value == null || value.isEmpty || value < 6)
+    if(value == null || value.isEmpty)
         return 'Enter a valid password!';
     return null;
   }

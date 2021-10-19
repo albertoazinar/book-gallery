@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:book_gallery/services/firestore_services.dart';
 import 'package:flutter/cupertino.dart';
 
 BookList bookListFromJson(String str) => BookList.fromJson(json.decode(str));
@@ -61,4 +62,30 @@ class Book{
     averageRating : (parsedJson["volumeInfo"]["averageRating"] == null) ? '' : (parsedJson["volumeInfo"]["averageRating"]).toString(),
     thumbnail : (parsedJson["volumeInfo"]["imageLinks"] == null) ? null : parsedJson["volumeInfo"]["imageLinks"]["thumbnail"].toString()
   );
+}
+
+class Books with ChangeNotifier{
+  List<Book> _favourite = [];
+
+  List<Book> get favourite => [... _favourite];
+
+  Future<void> fetchUserFavouriteBooks(String uid) async{
+    final querySnapshot = await Firestore_Service.getFavouriteBooks(uid);
+
+    _favourite = [];
+
+    querySnapshot.docs.forEach((favourite) async {
+      _favourite.add(Book(
+          id : favourite.id,
+          title: favourite['title'],
+          authors: favourite['authors'],
+          description: favourite['description'],
+          categories: favourite['category'],
+          averageRating: favourite['averageRating'],
+          thumbnail: favourite['thumbnail']
+      ));
+      notifyListeners();
+    });
+    _favourite = favourite;
+  }
 }

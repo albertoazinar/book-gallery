@@ -1,4 +1,4 @@
-import 'package:book_gallery/screens/Favourite.dart';
+import 'package:book_gallery/screens/favourite.dart';
 import 'package:book_gallery/screens/Profile.dart';
 import 'package:book_gallery/screens/home.dart';
 import 'package:flutter/material.dart';

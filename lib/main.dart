@@ -1,7 +1,5 @@
-
-import 'package:book_gallery/screens/home.dart';
+import 'package:book_gallery/models/Book.dart';
 import 'package:book_gallery/screens/login.dart';
-import 'package:book_gallery/screens/register.dart';
 import 'package:book_gallery/screens/screen_manager.dart';
 import 'package:book_gallery/services/firebase_auth_service.dart';
 import 'package:book_gallery/services/firestore_services.dart';
@@ -35,6 +33,7 @@ class MyApp extends StatelessWidget {
           ListenableProvider<local.UserAuthed>(
             create: (_) => local.UserAuthed(),
           ),
+          ChangeNotifierProvider(create: (_) => Books())
       ],
       child: MaterialApp(
         title: 'Book Gallery',
@@ -88,6 +87,8 @@ class AuthenticationWrapper extends StatelessWidget {
                       fullname: user['fullname'],
                       birthDate: user['birthdate'],
                   ));
+
+                  Provider.of<Books>(context, listen: false).fetchUserFavouriteBooks(snapshot.id);
 
                 }else{
 
