@@ -1,6 +1,7 @@
 import 'package:book_gallery/models/Book.dart';
 import 'package:book_gallery/services/firestore_services.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:loading_gifs/loading_gifs.dart';
 import 'package:provider/provider.dart';
 import '../models/user.dart' as local;
@@ -17,11 +18,14 @@ class _Book_infoState extends State<Book_info> {
 
   @override
   Widget build(BuildContext context) {
-    bool _isFavourite = widget.book.isFavourite == null ? false : widget.book.isFavourite as bool;
+    bool _isFavourite = widget.book.isFavourite == null ? false : true;
     final user = Provider.of<local.UserAuthed>(context).user;
 
     void addToFavourites(){
-      if(_isFavourite)
+        setState(() {
+            _isFavourite = true;
+        });
+
         Firestore_Service.addBook(user!.uid!, widget.book.title , widget.book.averageRating as String,
             widget.book.authors  , widget.book.categories ,
             widget.book.description, widget.book.thumbnail.toString(), widget.book.id, _isFavourite
@@ -29,6 +33,9 @@ class _Book_infoState extends State<Book_info> {
     }
 
     void removeFromFavourites(){
+      setState(() {
+          _isFavourite = false;
+      });
       Firestore_Service.removeBookFromFavourite(user!.uid!, widget.book).then((value) => print('removed'));
     }
 
@@ -42,9 +49,6 @@ class _Book_infoState extends State<Book_info> {
       return IconButton(
           onPressed: (){
             toggleFavIcon();
-            setState(() {
-              _isFavourite ? _isFavourite = false : _isFavourite = true;
-            });
             // if(!_isFavourite)
             //     _isFavourite = false;
             // else
