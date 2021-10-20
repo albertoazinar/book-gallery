@@ -13,8 +13,6 @@ class Favourite_Books extends StatefulWidget{
 }
 
 class Favourite_BooksState extends State<Favourite_Books>{
-
-
   @override
   Widget build(BuildContext context) {
     final favouriteBooks = Provider.of<Books>(context).favourite;
@@ -22,11 +20,15 @@ class Favourite_BooksState extends State<Favourite_Books>{
 
     final isEmpty = favouriteBooks.isEmpty;
 
+    Future<void> _refresh () async{
+      await Provider.of<Books>(context, listen: false).fetchUserFavouriteBooks(user!.uid!);
+    }
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 26),
         child: RefreshIndicator(
-          onRefresh: () async => await Provider.of<Books>(context, listen: false).fetchUserFavouriteBooks(user!.uid!),
+          onRefresh: () => _refresh(),
           child: ListView.builder(
               itemCount: favouriteBooks.length,
               itemBuilder: (context, int index) {
@@ -39,7 +41,7 @@ class Favourite_BooksState extends State<Favourite_Books>{
                           onTap: (){
                             Navigator.push(context, MaterialPageRoute(
                                 builder : (context) => Book_info(book:favouriteBooks[index]))
-                            );
+                            ).then((value)  => _refresh());
                           },
                           child: Container(
                             height: 170,
