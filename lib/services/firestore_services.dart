@@ -25,7 +25,7 @@ class Firestore_Service {
 
   static Future<void> addBook(
       user_id,String title, String averageRating,String authores,
-      String categories,String description, String thumbnail,String id,bool isFavourite) async{
+      String categories,String description, String thumbnail,String id,bool? isFavourite) async{
 
       final bookData = {
         "id" : id,

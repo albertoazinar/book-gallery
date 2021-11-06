@@ -11,57 +11,62 @@ class Book_info extends StatefulWidget {
   const Book_info({Key? key, required this.book}) : super(key: key);
   final Book book;
   @override
-  _Book_infoState createState() => _Book_infoState();
+  _Book_infoState createState() => _Book_infoState(this.book);
 }
 
 class _Book_infoState extends State<Book_info> {
-
+  Book book;
+  late bool? isFavourite;
+  _Book_infoState(this.book) : isFavourite = book.isFavourite == null ? false : true;
   @override
   Widget build(BuildContext context) {
-    bool _isFavourite = widget.book.isFavourite == null ? false : true;
     final user = Provider.of<local.UserAuthed>(context).user;
 
     void addToFavourites(){
-        setState(() {
-            _isFavourite = true;
-        });
-
         Firestore_Service.addBook(user!.uid!, widget.book.title , widget.book.averageRating as String,
             widget.book.authors  , widget.book.categories ,
-            widget.book.description, widget.book.thumbnail.toString(), widget.book.id, _isFavourite
+            widget.book.description, widget.book.thumbnail.toString(), widget.book.id, isFavourite
         ).then((value) => print("saved"));
     }
 
     void removeFromFavourites(){
-      setState(() {
-          _isFavourite = false;
-      });
       Firestore_Service.removeBookFromFavourite(user!.uid!, widget.book).then((value) => print('removed'));
     }
 
-    void toggleFavIcon(){
+    void _toggleFavIcon(){
       setState(() {
-        _isFavourite == true ? removeFromFavourites() : addToFavourites();
+        if(isFavourite != null && isFavourite == true){
+           removeFromFavourites();
+          isFavourite = false;
+        } else{
+          addToFavourites();
+          isFavourite = true;
+        }
       });
     }
 
-    Widget favIcon(){
-      return IconButton(
-          onPressed: (){
-            toggleFavIcon();
-            // if(!_isFavourite)
-            //     _isFavourite = false;
-            // else
-            //     _isFavourite = true;
-          },
-          icon: (
-              _isFavourite ? Icon(  Icons.favorite_outlined, color: Colors.red,) : Icon(Icons.favorite_outline)
-          )
-      );
-    }
+    // Widget favIcon(){
+    //   return IconButton(
+    //       icon: (
+    //           _isFavourite
+    //               ? Icon(  Icons.favorite_outlined, color: Colors.red,)
+    //               : Icon(Icons.favorite_outline)
+    //       ),
+    //       onPressed: toggleFavIcon
+    //         // setState(() {
+    //         //   _isFavourite = !_isFavourite;
+    //         // });
+    //         // if(!_isFavourite)
+    //         //     _isFavourite = false;
+    //         // else
+    //         //     _isFavourite = true;
+    //
+    //   );
+    // }
 
       return Scaffold(
         appBar: AppBar(
+          backgroundColor: const Color.fromRGBO(150, 148, 246, 1.0),
           leading: IconButton(
             icon: Icon(
                 Icons.arrow_back,
@@ -200,7 +205,14 @@ class _Book_infoState extends State<Book_info> {
                     width: 195,
                   ),
                   Expanded(
-                      child: favIcon()
+                      child: IconButton(
+                          onPressed: _toggleFavIcon,
+                          icon: (
+                              isFavourite == true
+                                  ? Icon(  Icons.favorite_outlined, color: Colors.red,)
+                                  : Icon(Icons.favorite_outline)
+                          ),
+                      )
                   )
                 ],
               ),
