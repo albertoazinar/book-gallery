@@ -239,7 +239,6 @@ class _LoginState extends State<Login> {
                                           padding: const EdgeInsets.symmetric(horizontal: 15),
                                           child: ElevatedButton.icon(
                                             onPressed: (){
-                                              if(_formkey.currentState!.validate())
                                                   loginWithGoogle(context);
                                             },
                                             icon: SvgPicture.asset(

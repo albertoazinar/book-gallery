@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:core';
 import 'package:book_gallery/models/Book.dart';
+import 'package:book_gallery/models/user.dart';
 import 'package:book_gallery/services/books_api_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_gifs/loading_gifs.dart';
+import 'package:provider/provider.dart';
 import 'book_details.dart';
 
 class Home extends StatefulWidget {
@@ -113,6 +115,7 @@ class _HomeState extends State<Home> {
  }
   @override
   Widget build(BuildContext context) {
+    var user = Provider.of<UserAuthed>(context).user;
     return Scaffold(
         body: SingleChildScrollView(
           child: Container(
@@ -173,7 +176,7 @@ class _HomeState extends State<Home> {
                                                 child: GestureDetector(
                                                   onTap: (){
                                                     Navigator.push(context, MaterialPageRoute(
-                                                        builder : (context) => Book_info(book:snapshot.data!.books[index]))
+                                                        builder : (context) => Book_info(book:snapshot.data!.books[index],userID:user!.uid))
                                                     );
                                                   },
                                                   child: Container(

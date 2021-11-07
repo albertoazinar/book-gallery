@@ -8,29 +8,44 @@ import '../models/user.dart' as local;
 
 
 class Book_info extends StatefulWidget {
-  const Book_info({Key? key, required this.book}) : super(key: key);
+  const Book_info({Key? key, required this.book, required this.userID}) : super(key: key);
   final Book book;
+  final userID;
   @override
-  _Book_infoState createState() => _Book_infoState(this.book);
+  _Book_infoState createState() => _Book_infoState(this.book,this.userID);
 }
 
 class _Book_infoState extends State<Book_info> {
+  bool? bookExists = false;
+  _Book_infoState(this.book,this.userID) : isFavourite = book.isFavourite == null ? false : true;
   Book book;
+  final userID;
   late bool? isFavourite;
-  _Book_infoState(this.book) : isFavourite = book.isFavourite == null ? false : true;
+
+  Future<void> isBookAlreadyAdded() async{
+    bookExists = await Firestore_Service.getSingleBook(userID, widget.book.id,widget.book.title);
+    print(bookExists);
+
+    if(bookExists == false) {
+      setState(() {
+        isFavourite = true;
+      });
+      addToFavourites();
+    }
+  }
+
+  void addToFavourites(){
+    Firestore_Service.addBook(userID, widget.book.title , widget.book.averageRating as String,
+        widget.book.authors  , widget.book.categories ,
+        widget.book.description, widget.book.thumbnail.toString(), widget.book.id, isFavourite
+    ).then((value) => print("saved"));
+  }
+
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<local.UserAuthed>(context).user;
-
-    void addToFavourites(){
-        Firestore_Service.addBook(user!.uid!, widget.book.title , widget.book.averageRating as String,
-            widget.book.authors  , widget.book.categories ,
-            widget.book.description, widget.book.thumbnail.toString(), widget.book.id, isFavourite
-        ).then((value) => print("saved"));
-    }
 
     void removeFromFavourites(){
-      Firestore_Service.removeBookFromFavourite(user!.uid!, widget.book).then((value) => print('removed'));
+      Firestore_Service.removeBookFromFavourite(userID, widget.book).then((value) => print('removed'));
     }
 
     void _toggleFavIcon(){
@@ -39,31 +54,10 @@ class _Book_infoState extends State<Book_info> {
            removeFromFavourites();
           isFavourite = false;
         } else{
-          addToFavourites();
-          isFavourite = true;
+          isBookAlreadyAdded();
         }
       });
     }
-
-    // Widget favIcon(){
-    //   return IconButton(
-    //       icon: (
-    //           _isFavourite
-    //               ? Icon(  Icons.favorite_outlined, color: Colors.red,)
-    //               : Icon(Icons.favorite_outline)
-    //       ),
-    //       onPressed: toggleFavIcon
-    //         // setState(() {
-    //         //   _isFavourite = !_isFavourite;
-    //         // });
-    //         // if(!_isFavourite)
-    //         //     _isFavourite = false;
-    //         // else
-    //         //     _isFavourite = true;
-    //
-    //   );
-    // }
-
       return Scaffold(
         appBar: AppBar(
           backgroundColor: const Color.fromRGBO(150, 148, 246, 1.0),

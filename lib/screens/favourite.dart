@@ -18,8 +18,6 @@ class Favourite_BooksState extends State<Favourite_Books>{
     final favouriteBooks = Provider.of<Books>(context).favourite;
     var user = Provider.of<UserAuthed>(context).user;
 
-    final isEmpty = favouriteBooks.isEmpty;
-
     Future<void> _refresh () async{
       await Provider.of<Books>(context, listen: false).fetchUserFavouriteBooks(user!.uid!);
     }
@@ -40,7 +38,7 @@ class Favourite_BooksState extends State<Favourite_Books>{
                         child: GestureDetector(
                           onTap: (){
                             Navigator.push(context, MaterialPageRoute(
-                                builder : (context) => Book_info(book:favouriteBooks[index]))
+                                builder : (context) => Book_info(book:favouriteBooks[index],userID:user!.uid))
                             ).then((value)  => _refresh());
                           },
                           child: Container(

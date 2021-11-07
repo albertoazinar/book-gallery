@@ -55,6 +55,22 @@ class Firestore_Service {
         .get();
   }
 
+  static Future<bool> getSingleBook(uid,bookID,bookTitle) async{
+    bool bookAlreadySaved = false;
+           await FirebaseFirestore.instance
+              .collection('users')
+              .doc(uid)
+              .collection("favouriteBooks")
+              .where('title', isEqualTo: bookTitle)
+              .get().then((snapshot) {
+                  snapshot.docs.forEach((element) {
+                  bookAlreadySaved = element.exists;
+                  //print(element['title']);
+        });
+      });
+    return bookAlreadySaved;
+}
+
   static Future<void> removeBookFromFavourite(uid,book) async{
       return await FirebaseFirestore.instance.collection("users").doc(uid)
            .collection("favouriteBooks").doc(book.id)
