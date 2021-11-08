@@ -7,17 +7,17 @@ import 'package:provider/provider.dart';
 import '../models/user.dart' as local;
 
 
-class Book_info extends StatefulWidget {
-  const Book_info({Key? key, required this.book, required this.userID}) : super(key: key);
+class BookInfo extends StatefulWidget {
+  const BookInfo({Key? key, required this.book, required this.userID}) : super(key: key);
   final Book book;
   final userID;
   @override
-  _Book_infoState createState() => _Book_infoState(this.book,this.userID);
+  _BookInfoState createState() => _BookInfoState(this.book,this.userID);
 }
 
-class _Book_infoState extends State<Book_info> {
+class _BookInfoState extends State<BookInfo> {
   bool? bookExists = false;
-  _Book_infoState(this.book,this.userID) : isFavourite = book.isFavourite == null ? false : true;
+  _BookInfoState(this.book,this.userID) : isFavourite = book.isFavourite == null ? false : true;
   Book book;
   final userID;
   late bool? isFavourite;

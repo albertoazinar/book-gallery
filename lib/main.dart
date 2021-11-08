@@ -1,6 +1,6 @@
 import 'package:book_gallery/models/Book.dart';
 import 'package:book_gallery/screens/login.dart';
-import 'package:book_gallery/screens/screen_manager.dart';
+import 'package:book_gallery/screens/screenManager.dart';
 import 'package:book_gallery/services/firebase_auth_service.dart';
 import 'package:book_gallery/services/firestore_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

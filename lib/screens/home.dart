@@ -8,7 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_gifs/loading_gifs.dart';
 import 'package:provider/provider.dart';
-import 'book_details.dart';
+import 'bookDetails.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);

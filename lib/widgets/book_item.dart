@@ -1,6 +1,6 @@
 import 'package:book_gallery/models/Book.dart';
 import 'package:book_gallery/models/user.dart';
-import 'package:book_gallery/screens/book_details.dart';
+import 'package:book_gallery/screens/bookDetails.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_gifs/loading_gifs.dart';
